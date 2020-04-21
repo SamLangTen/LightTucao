@@ -8,7 +8,9 @@
 
 然后笔者就跑去LeanCloud注册了个账号，发现国际版的LeanCloud对于开发版应用每天的请求次数只有3K，是大陆版的十分之一。虽然就算搭起来估计也不会有什么人访问，但是3K实在有点少。
 
-想想看笔者自己有VPS为何不弄个带后端的算了，于是就拼凑了一个带后端的。前端来源于[作者](https://github.com/daibor/nonsense.fun)。
+想想看笔者自己有VPS为何不弄个带后端的算了，于是就拼凑了一个带后端的。
+
+前端 [index.html](./index.html) 原始文件来源于[原作者仓库](https://github.com/daibor/nonsense.fun)，本项目该文件与原始文件之相同部分适用[该协议](https://github.com/daibor/nonsense.fun/blob/master/LICENSE)。本项目该文件与原始文件之不同部分适用本项目所使用的许可协议。
 
 ## 使用
 
