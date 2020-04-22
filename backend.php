@@ -22,6 +22,10 @@
     } elseif ($_SERVER["REQUEST_METHOD"]=="POST") {
         $data = json_decode(file_get_contents('php://input'), true);
 
+        if (!isset($data["content"]) || !isset($data["password"])) {
+            http_response_code(400);
+        }
+
         $rtn = create_post($data["content"], $data["password"]);
         if ($rtn==-1) {
             http_response_code(401);
@@ -29,6 +33,67 @@
             http_response_code(500);
         }
         return;
+    } elseif ($_SERVER["REQUEST_METHOD"]=="PUT") {
+        $data = json_decode(file_get_contents('php://input'), true);
+
+        if (!isset($data["content"]) || !isset($data["password"]) || !isset($data["id"])) {
+            http_response_code(400);
+        }
+
+        $rtn = update_post($data["id"], $data["content"], $data["password"]);
+        if ($rtn==-1) {
+            http_response_code(401);
+        } elseif ($rtn==0) {
+            http_response_code(500);
+        }
+        return;
+    } elseif ($_SERVER["REQUEST_METHOD"]=="DELETE") {
+        $data = json_decode(file_get_contents('php://input'), true);
+
+        if (!isset($data["id"]) || !isset($data["password"])) {
+            http_response_code(400);
+        }
+
+        $rtn = delete_post($data["id"], $data["password"]);
+        if ($rtn==-1) {
+            http_response_code(401);
+        } elseif ($rtn==0) {
+            http_response_code(500);
+        }
+        return;
+    }
+
+    function delete_post($id, $pass)
+    {
+        $config = json_decode(file_get_contents("config.json"), true);
+        if ($config["password"]!=$pass) {
+            return -1;
+        }
+
+        $sqlcmd = "DELETE FROM {table_name} WHERE ObjectId=$id";
+        $result = exec_sql($sqlcmd);
+        if (!$result) {
+            return 0;
+        }
+
+        return 1;
+    }
+
+    function update_post($id, $content, $pass)
+    {
+        $config = json_decode(file_get_contents("config.json"), true);
+        if ($config["password"]!=$pass) {
+            return -1;
+        }
+
+        $content = replace_escape($content);
+        $sqlcmd = "UPDATE {table_name} SET Content = '$content' WHERE ObjectId=$id";
+        $result = exec_sql($sqlcmd);
+        if (!$result) {
+            return 0;
+        }
+
+        return 1;
     }
 
     function create_post($content, $pass)
