@@ -26,7 +26,28 @@
     }
 ```
 
-3. 注意设置Web服务器规则，避免```config.json```被访问。
+3. 若要删除微博，使用以下API：
+
+```
+    DELETE /backend.php
+    {
+        "id":微博id,
+        "password":"你设置的密码"
+    }
+```
+
+4. 若要修改微博，使用以下API：
+
+```
+    PUT /backend.php
+    {
+        "id":微博id,
+        "content":"内容",
+        "password":"你设置的密码"
+    }
+```
+
+5. 注意设置Web服务器规则，避免```config.json```被访问。
 
 ## 注意
 
