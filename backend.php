@@ -164,7 +164,7 @@
         $config = json_decode(file_get_contents("config.json"), true);
         $post_each_page = $config["postOnPage"];
         $page_offset = $post_each_page*($page-1);
-        $query_sql = "SELECT * FROM {table_name} ORDER BY CreatedAt DESC LIMIT $post_each_page OFFSET $page_offset";
+        $query_sql = "SELECT ObjectId,Content,unix_timestamp(CreatedAt) FROM {table_name} ORDER BY CreatedAt DESC LIMIT $post_each_page OFFSET $page_offset";
         $result = exec_sql($query_sql);
         
         if (!$result) {
@@ -173,7 +173,8 @@
 
         $arr = array();
         while ($row = mysqli_fetch_assoc($result)) {
-            array_push($arr, $row);
+            $new_row = array("ObjectId"=>$row["ObjectId"],"Content"=>$row["Content"],"CreatedAt"=>(int)$row["unix_timestamp(CreatedAt)"]);
+            array_push($arr, $new_row);
         }
         return json_encode($arr, JSON_UNESCAPED_UNICODE);
     }
