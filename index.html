@@ -77,7 +77,7 @@
             } else {
                 let resC = results;
                 resC.forEach((i) => {
-                    let dateTmp = new Date(i.CreatedAt);
+                    let dateTmp = new Date(i.CreatedAt*1000);
                     i.attributes = {};
                     i.attributes.time = `${dateTmp.getFullYear()}-${(dateTmp.getMonth() + 1) < 10 ? ('0' + (dateTmp.getMonth() + 1)) : dateTmp.getMonth() + 1}-${(dateTmp.getDate() + 1) < 10 ? ('0' + dateTmp.getDate()) : dateTmp.getDate()} ${(dateTmp.getHours() + 1) <= 10 ? ('0' + dateTmp.getHours()) : dateTmp.getHours()}:${(dateTmp.getMinutes() + 1) <= 10 ? ('0' + dateTmp.getMinutes()) : dateTmp.getMinutes()}`;
                     i.attributes.content = "<span>" + urlToLink(i.Content) + "</span>";
