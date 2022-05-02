@@ -24,10 +24,7 @@
 ```
 5. 若要删除微博，使用以下API，并配置HTTP Authorization头为Basic Token：
 ```
-    DELETE /tucao
-    {
-        "id":微博id
-    }
+    DELETE /tucao/微博id
 ```
 
 ## 注意
