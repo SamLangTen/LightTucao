@@ -1,9 +1,0 @@
-{
-    "password": "yourpassword",
-    "postOnPage": 20,
-    "dbHost": "dbhost",
-    "dbName": "dbname",
-    "dbUser": "dbuser",
-    "dbPass": "dbpass",
-    "dbTable": "dbtable"
-}
