@@ -4,51 +4,33 @@
 
 ## 为什么有这个
 
-今天早上起床时看到这样一篇推送：[保卫表达：用后端 BaaS 快速搭建专属无点赞评论版微博——b言b语](https://sspai.com/post/60024)，然后笔者就想搭一个。
+灵感来源：[保卫表达：用后端 BaaS 快速搭建专属无点赞评论版微博——b言b语](https://sspai.com/post/60024)，然后笔者就想搭一个。
 
-然后笔者就跑去LeanCloud注册了个账号，发现国际版的LeanCloud对于开发版应用每天的请求次数只有3K，是大陆版的十分之一。虽然就算搭起来估计也不会有什么人访问，但是3K实在有点少。
-
-想想看笔者自己有VPS为何不弄个带后端的算了，于是就拼凑了一个带后端的。
+笔者编写的早期版本是带有后端的版本，现改成了基于Cloudflare Worker的版本。
 
 前端 [index.html](./index.html) 原始文件来源于[原作者仓库](https://github.com/daibor/nonsense.fun)，本项目该文件与原始文件之相同部分适用[该协议](https://github.com/daibor/nonsense.fun/blob/master/LICENSE)。本项目该文件与原始文件之不同部分适用本项目所使用的许可协议。
 
 ## 使用
 
-1. 打开```config.json```配置数据库和密码，密码用于API提交新微博。
-
-2. 若要提交新微博，使用以下API：
-
+1. 将仓库内的[Cloudflare Worker](https://github.com/SamLangTen/LightTucao/tree/master/backend/cloudflare-worker)脚本部署到Cloudflare上，并配置好Cloudflare Worker KV和路由。
+2. 将前端```index.html```部署到任意的静态页面托管服务上。
+3. 需要在Cloudflare Worker KV的数据表内新建名为token的KV，其值为提交和删除微博所使用的Token。
+4. 若要提交新微博，使用以下API，并配置HTTP Authorization头为Basic Token：
 ```
-    POST /backend.php
+    POST /tucao
     {
-        "content":"内容",
-        "password":"你设置的密码"
+        "content":"内容"
     }
 ```
-
-3. 若要删除微博，使用以下API：
-
+5. 若要删除微博，使用以下API，并配置HTTP Authorization头为Basic Token：
 ```
-    DELETE /backend.php
+    DELETE /tucao
     {
-        "id":微博id,
-        "password":"你设置的密码"
+        "id":微博id
     }
 ```
-
-4. 若要修改微博，使用以下API：
-
-```
-    PUT /backend.php
-    {
-        "id":微博id,
-        "content":"内容",
-        "password":"你设置的密码"
-    }
-```
-
-5. 注意设置Web服务器规则，避免```config.json```被访问。
 
 ## 注意
 
 代码是拼凑的，健壮性极低。Use it on your own disk.
+详情请看笔者博文：[记一次从LNMP迁移到Serverless](https://blog.samersions.net/article/a-journal-from-lnmp-to-serverless/)
